@@ -72,7 +72,7 @@ async def g_fil_mod(client, message):
           await m.edit("𝚄𝚂𝙴 :- /g_filter on 𝙾𝚁 /g_filter off")
 
 
-@Client.on_message(filters.text & filters.incoming & filters.chat(AUTH_GROUPS) if AUTH_GROUPS else filters.text & filters.incoming)
+@Client.on_message(filters.group & filters.text & filters.incoming & filters.chat(AUTH_GROUPS) if AUTH_GROUPS else filters.text & filters.incoming & filters.group)
 async def give_filter(client, message):
     if G_FILTER:
         if G_MODE.get(str(message.chat.id)) == "False":
@@ -191,7 +191,7 @@ async def next_page(bot, query):
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"✪ {get_size(file.file_size)} ✤ {file.file_name}", callback_data=f'files#{nxreq}#{file.file_id}'
+                    text=f"[✪{get_size(file.file_size)}] ✤ {file.file_name}", callback_data=f'files#{nxreq}#{file.file_id}'
                 ),
             ]
             for file in files
@@ -911,7 +911,7 @@ async def auto_filter(client, msg, spoll=False):
         btn = [
             [
                 InlineKeyboardButton(
-                    text=f"✪ {get_size(file.file_size)} ✤ {file.file_name}", callback_data=f'{pre}#{req}#{file.file_id}'
+                    text=f"✪{get_size(file.file_size)} ✤ {file.file_name}", callback_data=f'{pre}#{req}#{file.file_id}'
                 ),
             ]
             for file in files
@@ -952,11 +952,11 @@ async def auto_filter(client, msg, spoll=False):
             [InlineKeyboardButton(text=f"📄 PAGES 1/{math.ceil(int(total_results) / 6)}", callback_data="pages"),
              InlineKeyboardButton(text="NEXT ➡️", callback_data=f"next_{req}_{key}_{offset}")]
         )
-    else:
+        else:
         btn.append(
-            [InlineKeyboardButton(text="📄 𝗣𝗮𝗴𝗲 1/1", callback_data="pages")]
+            [InlineKeyboardButton(text="📄 Page 1/1", callback_data="pages")]
         )
-    imdb = await get_poster(search, file=(files[0]).file_name) if settings["imdb"] else None
+        imdb = await get_poster(search, file=(files[0]).file_name) if settings["imdb"] else None
     TEMPLATE = settings['template']
     if imdb:
         cap = TEMPLATE.format(
@@ -1331,7 +1331,6 @@ async def global_filters(client, message, text=False):
                 break
     else:
         return False
-
 
 
 
